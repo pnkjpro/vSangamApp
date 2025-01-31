@@ -1,7 +1,7 @@
 <template>
   <ion-app>
     <ion-split-pane content-id="main-content">
-      <ion-menu v-if="!isMenuHidden" content-id="main-content" type="overlay">
+      <ion-menu content-id="main-content" type="overlay">
         <ion-content>
           <ion-list id="inbox-list">
             <ion-list-header>vSangam</ion-list-header>
@@ -68,17 +68,6 @@ import {
   warningOutline,
   warningSharp,
 } from 'ionicons/icons';
-
-import { useRoute } from "vue-router";
-import { computed } from "vue";
-
-const route = useRoute();
-
-// Define the routes where the side menu should be hidden
-const hideMenuRoutes = ["/login", "/register"];
-
-// Compute whether the menu should be hidden based on the current route
-const isMenuHidden = computed(() => hideMenuRoutes.includes(route.path));
 
 const selectedIndex = ref(0);
 const appPages = [

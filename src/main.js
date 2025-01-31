@@ -1,7 +1,11 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
-
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+import "swiper/css";
+import "@ionic/vue/css/ionic-swiper.css";
+import "@lottiefiles/lottie-player";
 import { IonicVue } from '@ionic/vue';
 
 /* Core CSS required for Ionic components to work properly */
@@ -36,6 +40,7 @@ import './theme/variables.css';
 
 const app = createApp(App)
   .use(IonicVue)
+  .use(Toast)
   .use(router);
 
 router.isReady().then(() => {
