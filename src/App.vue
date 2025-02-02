@@ -99,7 +99,7 @@ const appPages = [
   },
   {
     title: 'Detail Page',
-    url: 'course/detail',
+    url: '/main/course/detail',
     iosIcon: bookOutline,
     mdIcon: bookSharp,
   },
