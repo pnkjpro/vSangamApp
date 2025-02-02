@@ -38,13 +38,9 @@
   } from '@ionic/vue';
   import { ref } from 'vue';
   import {
-    archiveOutline,
-    archiveSharp,
-    bookmarkOutline,
-    bookmarkSharp,
+    bookOutline,
     callOutline,
     callSharp,
-    carOutline,
     cart,
     cartSharp,
     cashOutline,
@@ -55,18 +51,14 @@
     helpCircleSharp,
     homeOutline,
     homeSharp,
-    mailOutline,
-    mailSharp,
-    paperPlaneOutline,
-    paperPlaneSharp,
+    bookSharp,
+    bookOutline,
     settingsOutline,
     settingsSharp,
     shareOutline,
     shareSharp,
-    trashOutline,
-    trashSharp,
-    warningOutline,
-    warningSharp,
+    logOutOutline,
+    logOutSharp,
   } from 'ionicons/icons';
   
   const selectedIndex = ref(0);
@@ -96,6 +88,12 @@
       mdIcon: heartSharp,
     },
     {
+      title: 'Detail Page',
+      url: 'course/detail',
+      iosIcon: bookOutline,
+      mdIcon: bookSharp,
+    },
+    {
       title: 'Refund Policy',
       url: '',
       iosIcon: cashOutline,
@@ -118,6 +116,12 @@
       url: '',
       iosIcon: shareOutline,
       mdIcon: shareSharp,
+    },
+    {
+      title: 'Logout',
+      url: '',
+      iosIcon: logOutOutline,
+      mdIcon: logOutSharp,
     },
   ];
   const path = window.location.pathname.split('folder/')[1];

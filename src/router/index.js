@@ -20,6 +20,18 @@ const routes = [
       {
         path: 'live',
         component: () => import('../views/main/LiveCourse.vue')
+      },
+      {
+        path: 'courses',
+        component: () => import('../views/main/Courses.vue'),
+      },
+      {
+        path: 'course/detail',
+        component: () => import('../views/main/CourseDetail.vue'),
+      },
+      {
+        path: 'lessons',
+        component: () => import('../views/main/Lessons.vue'),
       }
     ]
   },

@@ -38,13 +38,8 @@ import {
 } from '@ionic/vue';
 import { ref } from 'vue';
 import {
-  archiveOutline,
-  archiveSharp,
-  bookmarkOutline,
-  bookmarkSharp,
   callOutline,
   callSharp,
-  carOutline,
   cart,
   cartSharp,
   cashOutline,
@@ -55,18 +50,14 @@ import {
   helpCircleSharp,
   homeOutline,
   homeSharp,
-  mailOutline,
-  mailSharp,
-  paperPlaneOutline,
-  paperPlaneSharp,
   settingsOutline,
   settingsSharp,
   shareOutline,
   shareSharp,
-  trashOutline,
-  trashSharp,
-  warningOutline,
-  warningSharp,
+  bookOutline,
+  bookSharp,
+  logOutOutline,
+  logOutSharp,
 } from 'ionicons/icons';
 
 import { useRoute } from "vue-router";
@@ -107,6 +98,12 @@ const appPages = [
     mdIcon: heartSharp,
   },
   {
+    title: 'Detail Page',
+    url: 'course/detail',
+    iosIcon: bookOutline,
+    mdIcon: bookSharp,
+  },
+  {
     title: 'Refund Policy',
     url: '',
     iosIcon: cashOutline,
@@ -130,6 +127,12 @@ const appPages = [
     iosIcon: shareOutline,
     mdIcon: shareSharp,
   },
+  {
+      title: 'Logout',
+      url: '/auth/login',
+      iosIcon: logOutOutline,
+      mdIcon: logOutSharp,
+    },
 ];
 const path = window.location.pathname.split('folder/')[1];
 if (path !== undefined) {
