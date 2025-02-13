@@ -23,21 +23,25 @@ const routes = [
       },
       {
         path: 'courses',
-        component: () => import('../views/main/Courses.vue'),
+        component: () => import('../views/main/Courses.vue')
       },
       {
         path: 'course/detail',
-        component: () => import('../views/main/CourseDetail.vue'),
+        component: () => import('../views/main/CourseDetail.vue')
       },
       {
-        path: 'lessons',
-        component: () => import('../views/main/Lessons.vue'),
+        path: 'lessons/:courseId',
+        component: () => import('../views/main/Lessons.vue')
+      },
+      {
+        path: 'modules/:lessonId',
+        component: () => import('../views/main/Modules.vue')
       }
     ]
   },
   {
     path: '/settings',
-    component: () => import('../views/Settings.vue'),
+    component: () => import('../views/Settings.vue')
   },
   {
     path: '/auth/',
@@ -49,11 +53,11 @@ const routes = [
       },
       {
         path: 'login',
-        component: () => import('../views/auth/Login.vue'),
+        component: () => import('../views/auth/Login.vue')
       },
       {
         path: 'register',
-        component: () => import('../views/auth/Register.vue'),
+        component: () => import('../views/auth/Register.vue')
       }
     ]
   },

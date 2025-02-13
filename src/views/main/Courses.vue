@@ -81,17 +81,17 @@
         </div>
   
         <!-- Empty state -->
-        <div v-if="!loading && filteredCourses.length === 0" class="ion-text-center ion-padding">
+        <!-- <div v-if="!loading && courses.length === 0" class="ion-text-center ion-padding">
           <ion-text color="medium">
             <h4>No courses found</h4>
           </ion-text>
-        </div>
+        </div> -->
       </ion-content>
     </ion-page>
   </template>
   
-  <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  <script setup>
+  import { ref, computed, onMounted, inject, watch } from 'vue'
   import {
     IonPage,
     IonHeader,
@@ -119,42 +119,20 @@
     toastController
   } from '@ionic/vue'
   import { grid, list, time } from 'ionicons/icons'
+  import axios from 'axios';
+  import { useRouter } from 'vue-router';
+  import { useCourseStore } from '@/stores/courseStore';
+import { storeToRefs } from 'pinia';
   
-  interface Course {
-    id: number
-    title: string
-    description: string
-    category: string
-    duration: string
-    imageUrl: string
-  }
-  
-  // State
-  const viewMode = ref<'card' | 'list'>('card')
-  const loading = ref(false)
+  const viewMode = ref('card')
   const searchQuery = ref('')
+  const router = useRouter();
+  const config = inject('config');
+
+  const courseStore = useCourseStore();
+  const { courses, lessons, loading } = storeToRefs(courseStore); //this works for only reactive state
+  console.log(lessons.value);
   
-  // Sample data - replace with API call in real application
-  const courses = ref<Course[]>([
-    {
-      id: 1,
-      title: 'Vue.js Fundamentals',
-      description: 'Learn the basics of Vue.js 3 with Composition API',
-      category: 'Frontend',
-      duration: '6 hours',
-      imageUrl: 'https://placeholder.com/350x200'
-    },
-    {
-      id: 2,
-      title: 'Ionic Framework',
-      description: 'Build cross-platform mobile apps with Ionic',
-      category: 'Mobile',
-      duration: '8 hours',
-      imageUrl: 'https://placeholder.com/350x200'
-    }
-  ])
-  
-  // Computed properties
   const filteredCourses = computed(() => {
     return courses.value.filter(course =>
       course.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
@@ -162,25 +140,31 @@
     )
   })
   
-  // Methods
   const toggleView = () => {
     viewMode.value = viewMode.value === 'card' ? 'list' : 'card'
   }
   
-  const handleSearch = (event: CustomEvent) => {
+  const handleSearch = (event) => {
     searchQuery.value = event.detail.value || ''
   }
   
-  const enrollCourse = async (courseId: number) => {
-    // Add enrollment logic here
-    const toast = await toastController.create({
-      message: `Enrolled in course ${courseId}`,
-      duration: 2000,
-      position: 'bottom'
-    })
-    await toast.present()
+  // const enrollCourse = async (courseId) => {
+  //   const toast = await toastController.create({
+  //     message: `Enrolled in course ${courseId}`,
+  //     duration: 2000,
+  //     position: 'bottom'
+  //   })
+  //   await toast.present()
+  // }
+
+  const enrollCourse = (courseId) => {
+    router.push(`/main/lessons/${courseId}`);
   }
-  </script>
+
+  onMounted(()=>{
+    courseStore.listCourses();
+  })
+</script>
   
   <style scoped>
   ion-thumbnail {

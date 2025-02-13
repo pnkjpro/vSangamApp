@@ -4,8 +4,8 @@
         <ion-menu content-id="main-content" type="overlay">
           <ion-content>
             <ion-list id="inbox-list">
-              <ion-list-header>vSangam</ion-list-header>
-              <ion-note>info@vsangam.com</ion-note>
+              <ion-list-header>$config.APP_NAME</ion-list-header>
+              <ion-note>$config.APP_EMAIL</ion-note>
   
               <ion-menu-toggle :auto-hide="false" v-for="(p, i) in appPages" :key="i">
                 <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">

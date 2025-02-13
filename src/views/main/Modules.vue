@@ -2,40 +2,36 @@
     <ion-page>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Course Lessons</ion-title>
+          <ion-title>Lesson Modules</ion-title>
         </ion-toolbar>
       </ion-header>
   
       <ion-content>
         <ion-list>
-          <ion-item v-for="lesson in lessons" :key="lesson.id" button detail>
+          <ion-item v-for="module in modules" :key="module.id" button detail>
             <ion-thumbnail slot="start">
-              <img :src="lesson.thumbnail" :alt="lesson.title"/>
+              <img :src="module.thumbnail" :alt="module.title"/>
             </ion-thumbnail>
             
-            <ion-label @click="visitModule(lesson.id)">
-              <h2>{{ lesson.title }}</h2>
-              <p>{{ lesson.description }}</p>
-              <ion-note>Duration: {{ lesson.duration }}</ion-note>
+            <ion-label>
+              <h2>{{ module.title }}</h2>
+              <p>{{ module.description }}</p>
+              <ion-note>Duration: {{ module.duration }}</ion-note>
             </ion-label>
           </ion-item>
         </ion-list>
   
         <!-- Empty state -->
-        <div v-if="lessons.length === 0" class="ion-text-center ion-padding">
+        <div v-if="modules.length === 0" class="ion-text-center ion-padding">
           <ion-icon :icon="bookOutline" size="large" color="medium"></ion-icon>
-          <p>No lessons available</p>
-        </div>
-        <!-- Loading state -->
-        <div v-if="loading" class="ion-text-center">
-          <ion-spinner />
+          <p>No module available</p>
         </div>
       </ion-content>
     </ion-page>
   </template>
   
   <script setup>
-  import { ref, inject, onMounted, watch, watchEffect } from 'vue'
+  import { ref, inject, onMounted, watch } from 'vue'
   import { 
     IonPage, 
     IonHeader, 
@@ -46,34 +42,28 @@
     IonItem,
     IonThumbnail,
     IonLabel,
-    IonNote,
     IonSpinner,
+    IonNote,
     IonBadge,
     IonIcon
   } from '@ionic/vue'
   import { bookOutline } from 'ionicons/icons'
-  import { useRoute, useRouter } from 'vue-router'
+  import { useRoute } from 'vue-router'
   import { useCourseStore } from '@/stores/courseStore';
   import { storeToRefs } from 'pinia';
   import axios from 'axios'
 
   const route = useRoute();
-  const router = useRouter();
   const config = inject('config');
 
-  const courseId = route.params.courseId;
-
+  const lessonId = route.params.lessonId;
+  console.log(lessonId);
   const courseStore = useCourseStore();
-  const { lessons, loading } = storeToRefs(courseStore);
-  console.log(lessons);
-  
-  onMounted(()=> {
-    courseStore.fetchCourse(courseId);
+  const { modules } = storeToRefs(courseStore);
+
+  onMounted(() => {
+    courseStore.getModules(lessonId);
   });
- 
-  const visitModule = (lessonId) => {
-    router.push(`/main/modules/${lessonId}`);
-  }
 
   const getLessonStatusColor = (status) => {
     const colors = {
