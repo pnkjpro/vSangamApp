@@ -2,6 +2,9 @@
     <ion-page>
       <ion-header>
         <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-back-button default-href="/main/lessons"></ion-back-button>
+          </ion-buttons>
           <ion-title>Courses</ion-title>
           <ion-buttons slot="end">
             <ion-button @click="toggleView">
@@ -31,7 +34,7 @@
               :key="course.id"
             >
               <ion-card>
-                <img :src="course.imageUrl" :alt="course.title" />
+                <img :src="course.imageUrl || fallbackCourseImage" :alt="course.title" />
                 <ion-card-header>
                   <ion-card-subtitle>{{ course.category }}</ion-card-subtitle>
                   <ion-card-title>{{ course.title }}</ion-card-title>
@@ -39,7 +42,7 @@
                 <ion-card-content>
                   <p>{{ course.description }}</p>
                   <ion-text color="medium">
-                    <p>
+                    <p class="time-container">
                       <ion-icon :icon="time" />
                       {{ course.duration }}
                     </p>
@@ -57,13 +60,13 @@
         <ion-list v-else>
           <ion-item v-for="course in filteredCourses" :key="course.id">
             <ion-thumbnail slot="start">
-              <img :src="course.imageUrl" :alt="course.title" />
+              <img :src="course.imageUrl || fallbackCourseImage" :alt="course.title" />
             </ion-thumbnail>
             <ion-label>
               <h2>{{ course.title }}</h2>
               <p>{{ course.description }}</p>
               <ion-text color="medium">
-                <p>
+                <p class="time-container">
                   <ion-icon :icon="time" />
                   {{ course.duration }}
                 </p>
@@ -81,11 +84,11 @@
         </div>
   
         <!-- Empty state -->
-        <!-- <div v-if="!loading && courses.length === 0" class="ion-text-center ion-padding">
+        <div v-if="!loading && courses.length === 0" class="ion-text-center ion-padding">
           <ion-text color="medium">
             <h4>No courses found</h4>
           </ion-text>
-        </div> -->
+        </div>
       </ion-content>
     </ion-page>
   </template>
@@ -98,6 +101,7 @@
     IonToolbar,
     IonTitle,
     IonContent,
+    IonBackButton,
     IonGrid,
     IonRow,
     IonCol,
@@ -128,10 +132,9 @@ import { storeToRefs } from 'pinia';
   const searchQuery = ref('')
   const router = useRouter();
   const config = inject('config');
-
+  const fallbackCourseImage = config.FALLBACK_COURSE_IMAGE;
   const courseStore = useCourseStore();
   const { courses, lessons, loading } = storeToRefs(courseStore); //this works for only reactive state
-  console.log(lessons.value);
   
   const filteredCourses = computed(() => {
     return courses.value.filter(course =>
@@ -139,7 +142,7 @@ import { storeToRefs } from 'pinia';
       course.description.toLowerCase().includes(searchQuery.value.toLowerCase())
     )
   })
-  
+  console.log(filteredCourses.value);
   const toggleView = () => {
     viewMode.value = viewMode.value === 'card' ? 'list' : 'card'
   }
@@ -158,7 +161,8 @@ import { storeToRefs } from 'pinia';
   // }
 
   const enrollCourse = (courseId) => {
-    router.push(`/main/lessons/${courseId}`);
+    courseStore.fetchCourse(courseId);
+    router.push(`/main/lessons/`);
   }
 
   onMounted(()=>{
@@ -177,4 +181,14 @@ import { storeToRefs } from 'pinia';
     height: 200px;
     object-fit: cover;
   }
+
+  .time-container {
+  display: flex;
+  align-items: center; /* Align icon and text vertically */
+  gap: 5px; /* Add spacing between icon and text */
+}
+
+.time-icon {
+  font-size: 1.2em; /* Adjust size if needed */
+}
   </style>

@@ -78,7 +78,7 @@
             v-for="feature in features"
             :key="feature.title"
           >
-            <ion-card>
+            <ion-card @click="navigateTo(feature.link)">
               <ion-card-header>
                 <!-- Add Animated Graphic -->
                 <lottie-player
@@ -127,7 +127,11 @@ import "swiper/css/scrollbar";
 import "swiper/css/zoom";
 import "@ionic/vue/css/ionic-swiper.css";
 
+import { useRouter } from "vue-router";
+
 const modules = [Autoplay, Keyboard, Pagination, Scrollbar, Zoom];
+
+const router = useRouter();
 
 const features = [
   {
@@ -135,48 +139,60 @@ const features = [
     icon: "person-outline",
     description: "Access paid courses",
     animation: "https://vsangam.logicera.in/public/assets/lottie/course.json",
+    link: "/main/courses",
   },
   {
     title: "Free Courses",
     icon: "school-outline",
     description: "Learn for free",
     animation: "https://vsangam.logicera.in/public/assets/lottie/course.json",
+    link: "/main/courses",
   },
   {
     title: "Free Daily CA",
     icon: "globe-outline",
     description: "Stay updated",
     animation: "https://vsangam.logicera.in/public/assets/lottie/globe.json",
+    link: "",
   },
   {
     title: "Free Test Series",
     icon: "clipboard-outline",
     description: "Practice with free tests",
     animation: "https://vsangam.logicera.in/public/assets/lottie/student_reading.json",
+    link: "",
   },
   {
     title: "Paid Test Series",
     icon: "receipt-outline",
     description: "Take paid practice tests",
     animation: "https://vsangam.logicera.in/public/assets/lottie/prize.json",
+    link: "",
   },
   {
     title: "Free PDF Notes",
     icon: "document-outline",
     description: "Access study materials",
     animation: "https://vsangam.logicera.in/public/assets/lottie/penwriting.json",
+    link: "",
   },
   {
     title: "Books",
     icon: "book-outline",
     description: "Browse available books",
     animation: "https://vsangam.logicera.in/public/assets/lottie/tick.json",
+    link: "",
   },
   {
     title: "E-Books",
     icon: "book-outline",
     description: "Read digital books",
     animation: "https://vsangam.logicera.in/public/assets/lottie/rocket.json",
+    link: "",
   },
 ];
+
+const navigateTo = (link) => {
+  router.push(link);
+}
 </script>

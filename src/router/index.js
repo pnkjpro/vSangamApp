@@ -26,15 +26,15 @@ const routes = [
         component: () => import('../views/main/Courses.vue')
       },
       {
-        path: 'course/detail',
-        component: () => import('../views/main/CourseDetail.vue')
+        path: 'module/play',
+        component: () => import('../views/main/PlayModule.vue')
       },
       {
-        path: 'lessons/:courseId',
+        path: 'lessons/',
         component: () => import('../views/main/Lessons.vue')
       },
       {
-        path: 'modules/:lessonId',
+        path: 'modules/',
         component: () => import('../views/main/Modules.vue')
       }
     ]
@@ -63,7 +63,7 @@ const routes = [
   },
   {
     path: '',
-    redirect: '/folder/Inbox'
+    redirect: '/auth/'
   },
   {
     path: '/folder/:id',

@@ -2,6 +2,9 @@
     <ion-page>
       <ion-header>
         <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-back-button default-href="/main/courses"></ion-back-button>
+          </ion-buttons>
           <ion-title>Course Lessons</ion-title>
         </ion-toolbar>
       </ion-header>
@@ -10,13 +13,13 @@
         <ion-list>
           <ion-item v-for="lesson in lessons" :key="lesson.id" button detail>
             <ion-thumbnail slot="start">
-              <img :src="lesson.thumbnail" :alt="lesson.title"/>
+              <img :src="lesson.thumbnail || fallbackCourseImage" :alt="lesson.title"/>
             </ion-thumbnail>
             
             <ion-label @click="visitModule(lesson.id)">
               <h2>{{ lesson.title }}</h2>
               <p>{{ lesson.description }}</p>
-              <ion-note>Duration: {{ lesson.duration }}</ion-note>
+              <ion-note color="primary">Duration: {{ lesson.duration }}</ion-note>
             </ion-label>
           </ion-item>
         </ion-list>
@@ -48,6 +51,8 @@
     IonLabel,
     IonNote,
     IonSpinner,
+    IonButtons,
+    IonBackButton,
     IonBadge,
     IonIcon
   } from '@ionic/vue'
@@ -57,22 +62,20 @@
   import { storeToRefs } from 'pinia';
   import axios from 'axios'
 
-  const route = useRoute();
   const router = useRouter();
   const config = inject('config');
-
-  const courseId = route.params.courseId;
+  const fallbackCourseImage = config.FALLBACK_COURSE_IMAGE;
 
   const courseStore = useCourseStore();
-  const { lessons, loading } = storeToRefs(courseStore);
-  console.log(lessons);
+  const { lessons, loading, currentCourse } = storeToRefs(courseStore);
   
-  onMounted(()=> {
-    courseStore.fetchCourse(courseId);
-  });
+  const pullToRefresh = () => {
+    courseStore.fetchCourse(currentCourse.value.id);
+  }
  
   const visitModule = (lessonId) => {
-    router.push(`/main/modules/${lessonId}`);
+    courseStore.getModules(lessonId);
+    router.push(`/main/modules/`);
   }
 
   const getLessonStatusColor = (status) => {

@@ -60,6 +60,17 @@ export const useCourseStore = defineStore('course', () => {
         }
         modules.value = lesson.modules;
     }
+
+    const getModule = (moduleId) => {
+        console.log("selected Module: ", moduleId);
+        const module = modules.value.find(module => module.id === Number(moduleId));
+        if (!module) {
+            console.error(`Module with ID ${moduleId} not found`);
+            return null;
+        }
+        console.log("module", module);
+        return module;
+    }
     return {
         author,
         currentCourse, 
@@ -72,6 +83,7 @@ export const useCourseStore = defineStore('course', () => {
         errorMessage, 
         listCourses,
         fetchCourse,
-        getModules 
+        getModules,
+        getModule,
     };
 })
